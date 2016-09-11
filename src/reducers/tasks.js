@@ -1,4 +1,4 @@
-import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, COMPLETE_ALL} from '../constants/ActionTypes'
+import {ADD_TASK, DELETE_TASK, COMPLETE_TASK} from '../constants/ActionTypes'
 import {ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/TaskOrder'
 
 let initialState = []
@@ -16,10 +16,16 @@ export default function tasks(state = initialState, action) {
 
     switch (action.type) {
         case ORDER_MOST_RECENT:
-            return state.reverse()
+            nState = state.reverse()
+            updateCache(nState)
+
+            return nState
 
         case ORDER_LEAST_RECENT:
-            return state.reverse()
+            nState = state.reverse()
+            updateCache(nState)
+
+            return nState
 
         case ADD_TASK:
             nState = [
@@ -48,16 +54,6 @@ export default function tasks(state = initialState, action) {
                 {...task, completed: !task.completed} :
                     task
             )
-            updateCache(nState)
-
-            return nState
-
-        case COMPLETE_ALL:
-            const areAllMarked = state.every(task => task.completed)
-            nState = state.map(task => ({
-                ...task,
-                completed: !areAllMarked
-            }))
             updateCache(nState)
 
             return nState

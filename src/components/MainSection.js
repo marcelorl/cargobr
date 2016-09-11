@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import TaskItem from './TaskItem'
 import Footer from './Footer'
 import {SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE} from '../constants/TaskFilters'
+import classnames from 'classnames'
+import {ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/TaskOrder'
 
 const TASK_FILTERS = {
     [SHOW_ALL]: () => true,
@@ -9,14 +11,29 @@ const TASK_FILTERS = {
     [SHOW_COMPLETED]: task => task.completed
 }
 
+const ORDER_TITLES = {
+    [ORDER_MOST_RECENT]: 'Mais recentes',
+    [ORDER_LEAST_RECENT]: 'Mais antigas'
+}
+
 class MainSection extends Component {
     constructor(props, context) {
         super(props, context)
-        this.state = {filter: SHOW_ALL}
+        this.state = {filter: SHOW_ALL, order: ORDER_MOST_RECENT}
+
+        this.handleOrder = this.handleOrder.bind(this)
     }
 
     handleClearCompleted() {
         this.props.actions.clearCompleted()
+    }
+
+    handleOrder(order) {
+        let {orderLeastRecent, orderMostRecent} = this.props.actions
+        this.setState({order})
+        let state = orderMostRecent()
+
+        this.setState({state})
     }
 
     handleShow(filter) {
@@ -39,6 +56,19 @@ class MainSection extends Component {
         }
     }
 
+    renderOrderLink(order) {
+        const title = ORDER_TITLES[order]
+        const {order: selectedOrder} = this.state
+
+        return (
+            <a className={classnames({selected: order === selectedOrder})}
+               style={{cursor: 'pointer'}}
+               onClick={this.handleOrder}>
+                {title}
+            </a>
+        )
+    }
+
     render() {
         const {tasks, actions} = this.props
         const {filter} = this.state
@@ -51,6 +81,13 @@ class MainSection extends Component {
 
         return (
             <section className="main">
+                <ul className="filters">
+                    {[ORDER_MOST_RECENT, ORDER_LEAST_RECENT].map(order =>
+                        <li key={order}>
+                            {this.renderOrderLink(order)}
+                        </li>
+                    )}
+                </ul>
                 <ul className="todo-list">
                     {filteredTasks.map(task =>
                         <TaskItem key={task.id} task={task} {...actions} />

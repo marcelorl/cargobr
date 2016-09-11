@@ -1,22 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import classnames from 'classnames'
-import TaskTextInput from './TaskTextInput'
 
 class TaskItem extends Component {
     constructor(props, context) {
         super(props, context)
-        this.state = {
-            editing: false
-        }
-    }
-
-    handleSave(id, text) {
-        if (text.length === 0) {
-            this.props.deleteTask(id)
-        } else {
-            this.props.editTask(id, text)
-        }
-        this.setState({editing: false})
     }
 
     render() {
