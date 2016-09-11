@@ -3,7 +3,8 @@ import TaskItem from './TaskItem'
 import Footer from './Footer'
 import {SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE} from '../constants/TaskFilters'
 import classnames from 'classnames'
-import {ORDER_LIST, ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/ActionTypes'
+import {ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/ActionTypes'
+import {getLocalStorage, updateCache} from '../Utils'
 
 const TASK_FILTERS = {
     [SHOW_ALL]: () => true,
@@ -19,10 +20,24 @@ const ORDER_TITLES = {
 class MainSection extends Component {
     constructor(props, context) {
         super(props, context)
-        this.state = {filter: SHOW_ALL, order: ORDER_MOST_RECENT}
+
+        let order = ORDER_MOST_RECENT
+        let cachedState = getLocalStorage()
+
+        if(typeof cachedState === 'object' && cachedState.order) {
+            order = cachedState.order
+        }
+
+        this.state = {filter: SHOW_ALL, order}
     }
 
     handleOrder(order, selectedOrder) {
+        console.log('asdf')
+        let cachedState = getLocalStorage()
+        cachedState.order = order
+
+        updateCache(cachedState)
+
         if(order !== selectedOrder) {
             this.props.actions.orderList()
             this.setState({order})

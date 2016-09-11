@@ -1,17 +1,11 @@
 import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, ORDER_LIST} from '../constants/ActionTypes'
+import {getLocalStorage, updateCache} from '../Utils'
 
 let initialState = []
-let cachedState = localStorage.cargoBrState
-if(cachedState !== undefined){
-    cachedState = JSON.parse(cachedState)
-}
+let cachedState = getLocalStorage()
 
 if(Array.isArray(cachedState.tasks)) {
     initialState = cachedState.tasks
-}
-
-function updateCache(state) {
-    localStorage.setItem('cargoBrState', JSON.stringify({tasks: state}))
 }
 
 export default function tasks(state = initialState, action) {
@@ -20,7 +14,7 @@ export default function tasks(state = initialState, action) {
     switch (action.type) {
         case ORDER_LIST:
             nState = state.reverse()
-            updateCache(nState)
+            updateCache({tasks: nState})
 
             return nState
 
@@ -33,7 +27,7 @@ export default function tasks(state = initialState, action) {
                 },
                 ...state
             ]
-            updateCache(nState)
+            updateCache({tasks: nState})
 
             return nState
 
@@ -41,7 +35,7 @@ export default function tasks(state = initialState, action) {
             nState = state.filter(task =>
                 task.id !== action.id
             )
-            updateCache(nState)
+            updateCache({tasks: nState})
 
             return nState
 
@@ -51,7 +45,7 @@ export default function tasks(state = initialState, action) {
                 {...task, completed: !task.completed} :
                     task
             )
-            updateCache(nState)
+            updateCache({tasks: nState})
 
             return nState
 
