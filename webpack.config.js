@@ -1,6 +1,7 @@
 import webpack from 'webpack'
 
 export default {
+	context: __dirname,
 	debug: true,
 	devtool: 'source-map',
 	noInfo: false,
@@ -10,8 +11,8 @@ export default {
 		]
 	},
 	output: {
-		path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
-		publicPath: '/',
+		path: '/',
+		publicPath: '/dist',
 		filename: 'bundle.js'
 	},
 	plugins: [
