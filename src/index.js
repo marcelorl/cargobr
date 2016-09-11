@@ -5,6 +5,7 @@ import {Provider} from 'react-redux'
 import App from './containers/App'
 import reducer from './reducers'
 import 'todomvc-app-css/index.css'
+//import './style.scss'
 
 const store = createStore(reducer)
 
