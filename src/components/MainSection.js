@@ -8,7 +8,6 @@ import {getLocalStorage, updateCache} from '../Utils'
 
 const TASK_FILTERS = {
     [SHOW_ALL]: () => true,
-    [SHOW_ACTIVE]: task => !task.completed,
     [SHOW_COMPLETED]: task => task.completed
 }
 
@@ -62,9 +61,7 @@ class MainSection extends Component {
         }
     }
 
-    renderOrderList() {
-        const {tasks} = this.props
-
+    renderOrderList(tasks) {
         if(tasks.length) {
             return (
                 <ul className="filters fit-filters">
@@ -103,7 +100,7 @@ class MainSection extends Component {
 
         return (
             <section className="main">
-                {this.renderOrderList()}
+                {this.renderOrderList(filteredTasks)}
                 <ul className="todo-list">
                     {filteredTasks.map(task =>
                         <TaskItem key={task.id} task={task} {...actions} />
