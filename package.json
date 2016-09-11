@@ -3,14 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "webpack",
-    "deploy": "gh-pages-deploy",
     "start": "node index.js"
-  },
-  "gh-pages-deploy": {
-    "staticpath": "/",
-    "prep": [
-      "build"
-    ]
   },
   "babel": {
     "presets": [
