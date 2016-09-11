@@ -26,7 +26,7 @@ const middleware = webpackMiddleware(compiler, {
     }
 })
 
-app.use(express.static('dist'))
+app.use(express.static('docs'))
 
 app.use(middleware)
 app.use(webpackHotMiddleware(compiler))
