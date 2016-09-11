@@ -1,22 +1,33 @@
-let nextTodoId = 0
-export const addTodo = (text) => {
-    return {
-        type: 'ADD_TODO',
-        id: nextTodoId++,
-        text
-    }
+import * as types from '../constants/ActionTypes'
+
+export function orderMostRecent() {
+    return {type: types.ORDER_MOST_RECENT}
 }
 
-export const setVisibilityFilter = (filter) => {
-    return {
-        type: 'SET_VISIBILITY_FILTER',
-        filter
-    }
+export function orderLeastRecent() {
+    return {type: types.ORDER_LEAST_RECENT}
 }
 
-export const toggleTodo = (id) => {
-    return {
-        type: 'TOGGLE_TODO',
-        id
-    }
+export function addTask(text) {
+    return {type: types.ADD_TASK, text}
+}
+
+export function deleteTask(id) {
+    return {type: types.DELETE_TASK, id}
+}
+
+export function editTask(id, text) {
+    return {type: types.EDIT_TASK, id, text}
+}
+
+export function completeTask(id) {
+    return {type: types.COMPLETE_TASK, id}
+}
+
+export function completeAll() {
+    return {type: types.COMPLETE_ALL}
+}
+
+export function clearCompleted() {
+    return {type: types.CLEAR_COMPLETED}
 }
