@@ -1,27 +1,24 @@
-import {ADD_TASK, DELETE_TASK, COMPLETE_TASK} from '../constants/ActionTypes'
-import {ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/TaskOrder'
+import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, ORDER_LIST} from '../constants/ActionTypes'
 
 let initialState = []
-let cachedState = JSON.parse(localStorage.cargoBrState)
-if(Array.isArray(cachedState)) {
-    initialState = cachedState
+let cachedState = localStorage.cargoBrState
+if(cachedState !== undefined){
+    cachedState = JSON.parse(cachedState)
+}
+
+if(Array.isArray(cachedState.tasks)) {
+    initialState = cachedState.tasks
 }
 
 function updateCache(state) {
-    localStorage.setItem('cargoBrState', JSON.stringify(state))
+    localStorage.setItem('cargoBrState', JSON.stringify({tasks: state}))
 }
 
 export default function tasks(state = initialState, action) {
     let nState = []
 
     switch (action.type) {
-        case ORDER_MOST_RECENT:
-            nState = state.reverse()
-            updateCache(nState)
-
-            return nState
-
-        case ORDER_LEAST_RECENT:
+        case ORDER_LIST:
             nState = state.reverse()
             updateCache(nState)
 

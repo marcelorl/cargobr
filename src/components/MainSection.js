@@ -3,7 +3,7 @@ import TaskItem from './TaskItem'
 import Footer from './Footer'
 import {SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE} from '../constants/TaskFilters'
 import classnames from 'classnames'
-import {ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/TaskOrder'
+import {ORDER_LIST, ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/ActionTypes'
 
 const TASK_FILTERS = {
     [SHOW_ALL]: () => true,
@@ -22,13 +22,9 @@ class MainSection extends Component {
         this.state = {filter: SHOW_ALL, order: ORDER_MOST_RECENT}
     }
 
-    handleClearCompleted() {
-        this.props.actions.clearCompleted()
-    }
-
     handleOrder(order, selectedOrder) {
         if(order !== selectedOrder) {
-            this.props.actions.orderMostRecent()
+            this.props.actions.orderList()
             this.setState({order})
         }
     }
@@ -47,7 +43,6 @@ class MainSection extends Component {
                 <Footer completedCount={completedCount}
                         activeCount={activeCount}
                         filter={filter}
-                        onClearCompleted={this.handleClearCompleted.bind(this)}
                         onShow={this.handleShow.bind(this)}/>
             )
         }
