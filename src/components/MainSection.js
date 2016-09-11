@@ -81,7 +81,7 @@ class MainSection extends Component {
 
         return (
             <section className="main">
-                <ul className="filters">
+                <ul className="filters fit-filters">
                     {[ORDER_MOST_RECENT, ORDER_LEAST_RECENT].map(order =>
                         <li key={order}>
                             {this.renderOrderLink(order)}
