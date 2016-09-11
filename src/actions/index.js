@@ -27,7 +27,3 @@ export function completeTask(id) {
 export function completeAll() {
     return {type: types.COMPLETE_ALL}
 }
-
-export function clearCompleted() {
-    return {type: types.CLEAR_COMPLETED}
-}

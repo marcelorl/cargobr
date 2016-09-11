@@ -1,4 +1,4 @@
-import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, COMPLETE_ALL, CLEAR_COMPLETED} from '../constants/ActionTypes'
+import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, COMPLETE_ALL} from '../constants/ActionTypes'
 import {ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/TaskOrder'
 
 let initialState = []
@@ -16,7 +16,6 @@ export default function tasks(state = initialState, action) {
 
     switch (action.type) {
         case ORDER_MOST_RECENT:
-            console.log('asdf')
             return state.reverse()
 
         case ORDER_LEAST_RECENT:
