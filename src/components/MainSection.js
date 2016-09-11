@@ -20,20 +20,17 @@ class MainSection extends Component {
     constructor(props, context) {
         super(props, context)
         this.state = {filter: SHOW_ALL, order: ORDER_MOST_RECENT}
-
-        this.handleOrder = this.handleOrder.bind(this)
     }
 
     handleClearCompleted() {
         this.props.actions.clearCompleted()
     }
 
-    handleOrder(order) {
-        let {orderLeastRecent, orderMostRecent} = this.props.actions
-        this.setState({order})
-        let state = orderMostRecent()
-
-        this.setState({state})
+    handleOrder(order, selectedOrder) {
+        if(order !== selectedOrder) {
+            this.props.actions.orderMostRecent()
+            this.setState({order})
+        }
     }
 
     handleShow(filter) {
@@ -56,6 +53,22 @@ class MainSection extends Component {
         }
     }
 
+    renderOrderList() {
+        const {tasks} = this.props
+
+        if(tasks.length) {
+            return (
+                <ul className="filters fit-filters">
+                    {[ORDER_MOST_RECENT, ORDER_LEAST_RECENT].map(order =>
+                        <li key={order}>
+                            {this.renderOrderLink(order)}
+                        </li>
+                    )}
+                </ul>
+            )
+        }
+    }
+
     renderOrderLink(order) {
         const title = ORDER_TITLES[order]
         const {order: selectedOrder} = this.state
@@ -63,7 +76,7 @@ class MainSection extends Component {
         return (
             <a className={classnames({selected: order === selectedOrder})}
                style={{cursor: 'pointer'}}
-               onClick={this.handleOrder}>
+               onClick={() => this.handleOrder(order, selectedOrder)}>
                 {title}
             </a>
         )
@@ -81,13 +94,7 @@ class MainSection extends Component {
 
         return (
             <section className="main">
-                <ul className="filters fit-filters">
-                    {[ORDER_MOST_RECENT, ORDER_LEAST_RECENT].map(order =>
-                        <li key={order}>
-                            {this.renderOrderLink(order)}
-                        </li>
-                    )}
-                </ul>
+                {this.renderOrderList()}
                 <ul className="todo-list">
                     {filteredTasks.map(task =>
                         <TaskItem key={task.id} task={task} {...actions} />
