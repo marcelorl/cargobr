@@ -32,7 +32,6 @@ class MainSection extends Component {
     }
 
     handleOrder(order, selectedOrder) {
-        console.log('asdf')
         let cachedState = getLocalStorage()
         cachedState.order = order
 

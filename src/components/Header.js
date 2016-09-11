@@ -17,7 +17,7 @@ class Header extends Component {
     render() {
         return (
             <header className="header">
-                <h1>tasks</h1>
+                <h1>ITask</h1>
                 <TaskTextInput newTask
                                onSave={this.handleSave}
                                placeholder="O que você tem que fazer?"/>
