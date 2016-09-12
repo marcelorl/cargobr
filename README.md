@@ -13,3 +13,5 @@ Application job for CargoBr
 ### Prod mode
  
  - npm run build
+ 
+### Check out this app in [here](https://marcelorl.github.io/cargobr/) 
