@@ -11,10 +11,12 @@ import open from 'open'
 const port = 1337
 const app = express()
 
-const compiler = webpack(merge.smart(config, configDev))
+let nConf = merge.smart(config, configDev)
+
+const compiler = webpack(nConf)
 const middleware = webpackMiddleware(compiler, {
     noInfo: true,
-    publicPath: config.output.publicPath,
+    publicPath: nConf.output.publicPath,
     quiet: false,
     lazy: false,
     watchOptions: {
@@ -26,7 +28,7 @@ const middleware = webpackMiddleware(compiler, {
     }
 })
 
-app.use(express.static('docs'))
+app.use(express.static('dist'))
 
 app.use(middleware)
 app.use(webpackHotMiddleware(compiler))

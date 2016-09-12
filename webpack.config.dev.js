@@ -6,6 +6,10 @@ export default {
 			'webpack-hot-middleware/client?reload=true'
 		]
 	},
+	output: {
+		path: __dirname + '/dist',
+		publicPath: '/dist'
+	},
 	devServer: {
 		contentBase: './src'
 	},
