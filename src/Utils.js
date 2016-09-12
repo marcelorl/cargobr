@@ -1,10 +1,10 @@
 export function getLocalStorage() {
     let cachedState = localStorage.cargoBrState
     if(cachedState !== undefined){
-        cachedState = JSON.parse(cachedState)
+        return JSON.parse(cachedState)
     }
 
-    return cachedState
+    return {}
 }
 
 export function updateCache(state) {

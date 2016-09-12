@@ -4,7 +4,7 @@ import {getLocalStorage, updateCache} from '../Utils'
 let initialState = []
 let cachedState = getLocalStorage()
 
-if(Array.isArray(cachedState.tasks)) {
+if(cachedState !== undefined && Array.isArray(cachedState.tasks)) {
     initialState = cachedState.tasks
 }
 
