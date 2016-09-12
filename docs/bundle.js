@@ -4652,7 +4652,6 @@
 	var ADD_TASK = exports.ADD_TASK = 'ADD_TASK';
 	var DELETE_TASK = exports.DELETE_TASK = 'DELETE_TASK';
 	var COMPLETE_TASK = exports.COMPLETE_TASK = 'COMPLETE_TASK';
-	var ORDER_LIST = exports.ORDER_LIST = 'order_list';
 	var ORDER_MOST_RECENT = exports.ORDER_MOST_RECENT = 'order_most_recent';
 	var ORDER_LEAST_RECENT = exports.ORDER_LEAST_RECENT = 'order_least_recent';
 
@@ -11776,20 +11775,17 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.orderList = orderList;
 	exports.addTask = addTask;
 	exports.deleteTask = deleteTask;
 	exports.completeTask = completeTask;
+	exports.orderMostRecent = orderMostRecent;
+	exports.orderLeastRecent = orderLeastRecent;
 	
 	var _ActionTypes = __webpack_require__(38);
 	
 	var types = _interopRequireWildcard(_ActionTypes);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function orderList() {
-	    return { type: types.ORDER_LIST };
-	}
 	
 	function addTask(text) {
 	    return { type: types.ADD_TASK, text: text };
@@ -11801,6 +11797,14 @@
 	
 	function completeTask(id) {
 	    return { type: types.COMPLETE_TASK, id: id };
+	}
+	
+	function orderMostRecent() {
+	    return { type: types.ORDER_MOST_RECENT };
+	}
+	
+	function orderLeastRecent() {
+	    return { type: types.ORDER_LEAST_RECENT };
 	}
 
 /***/ },
@@ -12083,7 +12087,12 @@
 	            (0, _Utils.updateCache)(cachedState);
 	
 	            if (order !== selectedOrder) {
-	                this.props.actions.orderList();
+	                if (order === _ActionTypes.ORDER_MOST_RECENT) {
+	                    this.props.actions.orderMostRecent();
+	                } else if (order === _ActionTypes.ORDER_LEAST_RECENT) {
+	                    this.props.actions.orderLeastRecent();
+	                }
+	
 	                this.setState({ order: order });
 	            }
 	        }
@@ -12550,11 +12559,22 @@
 	    var nState = [];
 	
 	    switch (action.type) {
-	        case _ActionTypes.ORDER_LIST:
-	            nState = state.reverse();
-	            (0, _Utils.updateCache)({ tasks: nState });
+	        case _ActionTypes.ORDER_MOST_RECENT:
+	            state.sort(function (a, b) {
+	                return a.timestamp + b.timestamp;
+	            });
 	
-	            return nState;
+	            (0, _Utils.updateCache)({ tasks: state });
+	
+	            return state;
+	
+	        case _ActionTypes.ORDER_LEAST_RECENT:
+	            state.sort(function (a, b) {
+	                return a.timestamp - b.timestamp;
+	            });
+	            (0, _Utils.updateCache)({ tasks: state });
+	
+	            return state;
 	
 	        case _ActionTypes.ADD_TASK:
 	            nState = [{
@@ -12562,7 +12582,8 @@
 	                    return Math.max(task.id, maxId);
 	                }, -1) + 1,
 	                completed: false,
-	                text: action.text
+	                text: action.text,
+	                timestamp: Math.floor(Date.now() / 1000)
 	            }].concat(_toConsumableArray(state));
 	            (0, _Utils.updateCache)({ tasks: nState });
 	
@@ -12573,6 +12594,7 @@
 	                return task.id !== action.id;
 	            });
 	            (0, _Utils.updateCache)({ tasks: nState });
+	            (0, _Utils.updateCache)({ order: _ActionTypes.ORDER_MOST_RECENT });
 	
 	            return nState;
 	
