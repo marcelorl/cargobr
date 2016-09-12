@@ -7049,10 +7049,10 @@
 	function getLocalStorage() {
 	    var cachedState = localStorage.cargoBrState;
 	    if (cachedState !== undefined) {
-	        cachedState = JSON.parse(cachedState);
+	        return JSON.parse(cachedState);
 	    }
 	
-	    return cachedState;
+	    return {};
 	}
 	
 	function updateCache(state) {
@@ -12539,7 +12539,7 @@
 	var initialState = [];
 	var cachedState = (0, _Utils.getLocalStorage)();
 	
-	if (Array.isArray(cachedState.tasks)) {
+	if (cachedState !== undefined && Array.isArray(cachedState.tasks)) {
 	    initialState = cachedState.tasks;
 	}
 	
