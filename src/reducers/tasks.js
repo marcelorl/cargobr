@@ -1,4 +1,4 @@
-import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, ORDER_LIST} from '../constants/ActionTypes'
+import {ADD_TASK, DELETE_TASK, COMPLETE_TASK, ORDER_MOST_RECENT, ORDER_LEAST_RECENT} from '../constants/ActionTypes'
 import {getLocalStorage, updateCache} from '../Utils'
 
 let initialState = []
@@ -12,18 +12,30 @@ export default function tasks(state = initialState, action) {
     let nState = []
 
     switch (action.type) {
-        case ORDER_LIST:
-            nState = state.reverse()
-            updateCache({tasks: nState})
+        case ORDER_MOST_RECENT:
+            state.sort(function(a, b) {
+                return a.timestamp + b.timestamp;
+            })
 
-            return nState
+            updateCache({tasks: state})
+
+            return state
+
+        case ORDER_LEAST_RECENT:
+            state.sort(function(a, b) {
+                return a.timestamp - b.timestamp;
+            })
+            updateCache({tasks: state})
+
+            return state
 
         case ADD_TASK:
             nState = [
                 {
                     id: state.reduce((maxId, task) => Math.max(task.id, maxId), -1) + 1,
                     completed: false,
-                    text: action.text
+                    text: action.text,
+                    timestamp: Math.floor(Date.now() / 1000)
                 },
                 ...state
             ]
@@ -36,6 +48,7 @@ export default function tasks(state = initialState, action) {
                 task.id !== action.id
             )
             updateCache({tasks: nState})
+            updateCache({order: ORDER_MOST_RECENT})
 
             return nState
 

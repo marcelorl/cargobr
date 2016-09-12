@@ -37,7 +37,12 @@ class MainSection extends Component {
         updateCache(cachedState)
 
         if(order !== selectedOrder) {
-            this.props.actions.orderList()
+            if(order === ORDER_MOST_RECENT) {
+                this.props.actions.orderMostRecent()
+            } else if(order === ORDER_LEAST_RECENT) {
+                this.props.actions.orderLeastRecent()
+            }
+
             this.setState({order})
         }
     }

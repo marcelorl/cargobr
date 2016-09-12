@@ -1,9 +1,5 @@
 import * as types from '../constants/ActionTypes'
 
-export function orderList() {
-    return {type: types.ORDER_LIST}
-}
-
 export function addTask(text) {
     return {type: types.ADD_TASK, text}
 }
@@ -14,4 +10,12 @@ export function deleteTask(id) {
 
 export function completeTask(id) {
     return {type: types.COMPLETE_TASK, id}
+}
+
+export function orderMostRecent() {
+    return {type: types.ORDER_MOST_RECENT}
+}
+
+export function orderLeastRecent() {
+    return {type: types.ORDER_LEAST_RECENT}
 }
