@@ -1,5 +1,7 @@
 # cargoBR
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/marcelorl/cargobr.svg)](https://greenkeeper.io/)
+
 Application job for CargoBr
 
 ## Installation
